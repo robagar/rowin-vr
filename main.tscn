@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=3 uid="uid://de5c6b7vsbph7"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_whas7"]
+[ext_resource type="Shader" path="res://water/Water.gdshader" id="3_bppvs"]
+[ext_resource type="PackedScene" uid="uid://b67gh7jl4bhy5" path="res://models/boat/boat.glb" id="4_ghca4"]
+[ext_resource type="Script" path="res://water/Water.gd" id="4_nrbvc"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_uv63l"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ylp0b"]
+ground_bottom_color = Color(0.503523, 0.657683, 0.695858, 1)
+
+[sub_resource type="Sky" id="Sky_wvjob"]
+sky_material = SubResource("ProceduralSkyMaterial_ylp0b")
+
+[sub_resource type="Environment" id="Environment_orrlf"]
+background_mode = 2
+background_color = Color(0.501961, 0.658824, 0.694118, 1)
+sky = SubResource("Sky_wvjob")
+ambient_light_color = Color(0.788235, 0.788235, 0.788235, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_83x2y"]
+render_priority = 0
+shader = ExtResource("3_bppvs")
+shader_parameter/height_scale = 0.1
+shader_parameter/horizontal_scale = 1.0
+shader_parameter/time_scale = 1.0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_qd1tv"]
+material = SubResource("ShaderMaterial_83x2y")
+size = Vector2(10, 10)
+subdivide_width = 32
+subdivide_depth = 32
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_whas7")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.706415, -0.31913, 0.63177, 2.13597e-09, 0.892586, 0.450878, -0.707798, 0.318507, -0.630536, 6.21413, 3.44831, -4.48998)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.52364, 1.19674, -5.93969)
+mesh = SubResource("SphereMesh_uv63l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_orrlf")
+
+[node name="Player" type="Node3D" parent="."]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="Player"]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="Player/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.7, 2.08165e-12)
+
+[node name="LeftHand" type="XRController3D" parent="Player/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+tracker = &"left_hand"
+
+[node name="RightHand" type="XRController3D" parent="Player/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+
+[node name="TiledWater" type="Node3D" parent="Player"]
+script = ExtResource("4_nrbvc")
+
+[node name="Tile" type="MeshInstance3D" parent="Player/TiledWater"]
+mesh = SubResource("PlaneMesh_qd1tv")
+
+[node name="boat" parent="." instance=ExtResource("4_ghca4")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
