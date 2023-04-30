@@ -1,6 +1,7 @@
 extends Node3D
 
 func _ready():
+	
 	var tile_template = $Tile;
 	const N = 5
 	for i in range(-N, N):
@@ -15,6 +16,4 @@ func _ready():
 	
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+
