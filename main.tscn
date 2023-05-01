@@ -1,79 +1,68 @@
-[gd_scene load_steps=12 format=3 uid="uid://de5c6b7vsbph7"]
+[gd_scene load_steps=11 format=3 uid="uid://cmaxnoqw2u4ew"]
 
-[ext_resource type="Script" path="res://main.gd" id="1_whas7"]
-[ext_resource type="Script" path="res://Boat.gd" id="2_nt3xd"]
-[ext_resource type="Shader" path="res://water/Water.gdshader" id="3_bppvs"]
-[ext_resource type="PackedScene" uid="uid://b67gh7jl4bhy5" path="res://models/boat/boat.glb" id="4_ghca4"]
-[ext_resource type="Script" path="res://water/Water.gd" id="4_nrbvc"]
+[ext_resource type="Script" path="res://Main.gd" id="1_cegaa"]
+[ext_resource type="PackedScene" uid="uid://tegdjahb2g8r" path="res://models/boat/boat.glb" id="2_mqn32"]
+[ext_resource type="Script" path="res://Water.gd" id="3_q0skm"]
+[ext_resource type="Shader" path="res://water.gdshader" id="4_ikxiw"]
 
-[sub_resource type="SphereMesh" id="SphereMesh_uv63l"]
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vm1eg"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ylp0b"]
-ground_bottom_color = Color(0.503523, 0.657683, 0.695858, 1)
+[sub_resource type="Sky" id="Sky_qaww7"]
+sky_material = SubResource("ProceduralSkyMaterial_vm1eg")
 
-[sub_resource type="Sky" id="Sky_wvjob"]
-sky_material = SubResource("ProceduralSkyMaterial_ylp0b")
-
-[sub_resource type="Environment" id="Environment_orrlf"]
+[sub_resource type="Environment" id="Environment_leqm8"]
 background_mode = 2
-background_color = Color(0.501961, 0.658824, 0.694118, 1)
-sky = SubResource("Sky_wvjob")
-ambient_light_color = Color(0.788235, 0.788235, 0.788235, 1)
+sky = SubResource("Sky_qaww7")
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_83x2y"]
+[sub_resource type="SphereMesh" id="SphereMesh_3dxiw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6auev"]
 render_priority = 0
-shader = ExtResource("3_bppvs")
+shader = ExtResource("4_ikxiw")
 shader_parameter/height_scale = 0.1
 shader_parameter/horizontal_scale = 1.0
 shader_parameter/time_scale = 1.0
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_qd1tv"]
-material = SubResource("ShaderMaterial_83x2y")
+[sub_resource type="PlaneMesh" id="PlaneMesh_iet6j"]
+material = SubResource("ShaderMaterial_6auev")
 size = Vector2(10, 10)
 subdivide_width = 32
 subdivide_depth = 32
 
 [node name="Main" type="Node3D"]
-script = ExtResource("1_whas7")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.706415, -0.31913, 0.63177, 2.13597e-09, 0.892586, 0.450878, -0.707798, 0.318507, -0.630536, 6.21413, 3.44831, -4.48998)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.52364, 1.19674, -5.93969)
-mesh = SubResource("SphereMesh_uv63l")
+script = ExtResource("1_cegaa")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_orrlf")
+environment = SubResource("Environment_leqm8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.861939, -0.296595, -0.411209, -8.36187e-17, -0.811043, 0.584986, -0.507012, -0.504222, -0.69907, -8.333, 9.39289, -4.53198)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0307214, 2.9491, -12.0187)
+mesh = SubResource("SphereMesh_3dxiw")
 
 [node name="Boat" type="Node3D" parent="."]
-script = ExtResource("2_nt3xd")
 
-[node name="Boat3D" parent="Boat" instance=ExtResource("4_ghca4")]
-transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+[node name="XROrigin3D" type="XROrigin3D" parent="Boat"]
 
-[node name="paddel" parent="Boat/Boat3D/Sketchfab_model/01e6de31d9c04abfb80dd3ceb239b9e0fbx/RootNode/boat" index="1"]
-visible = false
+[node name="Head" type="XRController3D" parent="Boat/XROrigin3D"]
+tracker = &"head"
 
-[node name="Player" type="Node3D" parent="Boat"]
+[node name="XRCamera3D" type="XRCamera3D" parent="Boat/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.6, 2.08165e-12)
 
-[node name="XROrigin3D" type="XROrigin3D" parent="Boat/Player"]
-
-[node name="XRCamera3D" type="XRCamera3D" parent="Boat/Player/XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.7, 2.08165e-12)
-
-[node name="LeftHand" type="XRController3D" parent="Boat/Player/XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+[node name="LeftHand" type="XRController3D" parent="Boat/XROrigin3D"]
 tracker = &"left_hand"
 
-[node name="RightHand" type="XRController3D" parent="Boat/Player/XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+[node name="RightHand" type="XRController3D" parent="Boat/XROrigin3D"]
 tracker = &"right_hand"
 
-[node name="TiledWater" type="Node3D" parent="Boat/Player"]
-script = ExtResource("4_nrbvc")
+[node name="boat" parent="Boat" instance=ExtResource("2_mqn32")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
-[node name="Tile" type="MeshInstance3D" parent="Boat/Player/TiledWater"]
-mesh = SubResource("PlaneMesh_qd1tv")
+[node name="Water" type="Node3D" parent="."]
+script = ExtResource("3_q0skm")
 
-[editable path="Boat/Boat3D"]
+[node name="Tile" type="MeshInstance3D" parent="Water"]
+mesh = SubResource("PlaneMesh_iet6j")

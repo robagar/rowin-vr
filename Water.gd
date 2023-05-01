@@ -12,8 +12,3 @@ func _ready():
 				tile.position.z = j * 10
 				add_child(tile)
 				
-		
-	
-
-
-

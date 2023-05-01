@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="rowin-vr"
-run/main_scene="res://main.tscn"
+config/name="rowinvr"
+run/main_scene="res://Main.tscn"
 config/features=PackedStringArray("4.0", "Mobile")
 config/icon="res://icon.svg"
 
