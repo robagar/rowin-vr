@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cmaxnoqw2u4ew"]
+[gd_scene load_steps=12 format=3 uid="uid://cmaxnoqw2u4ew"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_cegaa"]
+[ext_resource type="Script" path="res://Boat.gd" id="2_50vj5"]
 [ext_resource type="PackedScene" uid="uid://tegdjahb2g8r" path="res://models/boat/boat.glb" id="2_mqn32"]
 [ext_resource type="Script" path="res://Water.gd" id="3_q0skm"]
 [ext_resource type="Shader" path="res://water.gdshader" id="4_ikxiw"]
@@ -43,6 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0307214, 2.9491, -12.0187)
 mesh = SubResource("SphereMesh_3dxiw")
 
 [node name="Boat" type="Node3D" parent="."]
+script = ExtResource("2_50vj5")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="Boat"]
 

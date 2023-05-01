@@ -2,6 +2,7 @@ extends Node3D
 
 var interface: XRInterface
 
+
 func _ready():
 	print("Main READY")
 	interface = XRServer.find_interface("OpenXR")
@@ -13,6 +14,7 @@ func _ready():
 		
 	var right_hand = $"Boat/XROrigin3D/RightHand"
 	right_hand.connect("button_pressed", right_hand_button_pressed)
+	
 	
 func right_hand_button_pressed(button_name):
 	print("RH BUTTON PRESSED ", button_name)
