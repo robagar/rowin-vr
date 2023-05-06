@@ -7,6 +7,7 @@
 [ext_resource type="Shader" path="res://water.gdshader" id="4_ikxiw"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_vm1eg"]
+ground_bottom_color = Color(0.697104, 0.813086, 0.875933, 1)
 
 [sub_resource type="Sky" id="Sky_qaww7"]
 sky_material = SubResource("ProceduralSkyMaterial_vm1eg")
@@ -63,8 +64,13 @@ tracker = &"right_hand"
 [node name="boat" parent="Boat" instance=ExtResource("2_mqn32")]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
-[node name="Water" type="Node3D" parent="."]
+[node name="paddel" parent="Boat/boat/Sketchfab_model/01e6de31d9c04abfb80dd3ceb239b9e0fbx/RootNode/boat" index="1"]
+visible = false
+
+[node name="Water" type="Node3D" parent="Boat"]
 script = ExtResource("3_q0skm")
 
-[node name="Tile" type="MeshInstance3D" parent="Water"]
+[node name="Tile" type="MeshInstance3D" parent="Boat/Water"]
 mesh = SubResource("PlaneMesh_iet6j")
+
+[editable path="Boat/boat"]
