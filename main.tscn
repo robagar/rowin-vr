@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cmaxnoqw2u4ew"]
+[gd_scene load_steps=15 format=3 uid="uid://cmaxnoqw2u4ew"]
 
 [ext_resource type="Script" path="res://Main.gd" id="1_cegaa"]
 [ext_resource type="Script" path="res://Boat.gd" id="2_50vj5"]
@@ -19,6 +19,13 @@ background_mode = 2
 sky = SubResource("Sky_qaww7")
 
 [sub_resource type="SphereMesh" id="SphereMesh_3dxiw"]
+
+[sub_resource type="Curve3D" id="Curve3D_thh8u"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 2.08165e-12, 14.3729, 0, -7.34616, -14.3729, 0, 7.34616, -1.43362, 0, 60.8126, 20.9206, 0, -3.6731, -20.9206, 0, 3.6731, -23.6318, 0, 66.8812, 17.7266, 0, 19.3236, -17.7266, 0, -19.3236, -101.725, 0, 36.5383, -7.50585, 0, 22.5176, 7.50585, 0, -22.5176, -113.702, 0, -49.8589, -19.1639, 0, 3.99248, 19.1639, 0, -3.99248, -49.6628, 0, -83.5554, -15.3311, 0, -11.4983, 15.3311, 0, 11.4983, 20.7646, 0, -69.5019, 7.18645, 0, -8.30436, -7.18645, 0, 8.30436, 19.0079, 0, -27.8204, 5.74916, 0, -12.2968, -5.74916, 0, 12.2968, 1.92006, 0, -13.7669, 0, 0, 0, 0, 0, 0, 2.08165e-12, 2.08165e-12, 2.08165e-12),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 10
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6auev"]
 render_priority = 0
@@ -46,35 +53,6 @@ transform = Transform3D(0.861939, -0.296595, -0.411209, -8.36187e-17, -0.811043,
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0307214, 2.9491, -12.0187)
 visible = false
 mesh = SubResource("SphereMesh_3dxiw")
-
-[node name="Boat" type="Node3D" parent="."]
-script = ExtResource("2_50vj5")
-
-[node name="XROrigin3D" type="XROrigin3D" parent="Boat"]
-
-[node name="Head" type="XRController3D" parent="Boat/XROrigin3D"]
-tracker = &"head"
-
-[node name="XRCamera3D" type="XRCamera3D" parent="Boat/XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.6, 2.08165e-12)
-
-[node name="LeftHand" type="XRController3D" parent="Boat/XROrigin3D"]
-tracker = &"left_hand"
-
-[node name="RightHand" type="XRController3D" parent="Boat/XROrigin3D"]
-tracker = &"right_hand"
-
-[node name="boat" parent="Boat" instance=ExtResource("2_mqn32")]
-transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
-
-[node name="paddel" parent="Boat/boat/Sketchfab_model/01e6de31d9c04abfb80dd3ceb239b9e0fbx/RootNode/boat" index="1"]
-visible = false
-
-[node name="Water" type="Node3D" parent="Boat"]
-script = ExtResource("3_q0skm")
-
-[node name="Tile" type="MeshInstance3D" parent="Boat/Water"]
-mesh = SubResource("PlaneMesh_iet6j")
 
 [node name="Mermaid" parent="." instance=ExtResource("6_70g8m")]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -8.54196, -0.0613041, -8.71729)
@@ -200,6 +178,43 @@ visible = false
 [node name="Skybox_48" parent="Island/Sketchfab_model/root/GLTF_SceneRootNode" index="20"]
 visible = false
 
-[editable path="Boat/boat"]
+[node name="Course" type="Path3D" parent="."]
+curve = SubResource("Curve3D_thh8u")
+metadata/_edit_lock_ = true
+
+[node name="Follow" type="PathFollow3D" parent="Course"]
+transform = Transform3D(0.999722, -8.06513e-16, -0.0235678, -1.05879e-22, 1, -3.4221e-14, 0.0235678, 3.42115e-14, 0.999722, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[node name="Boat" type="Node3D" parent="Course/Follow"]
+transform = Transform3D(0.999722, -1.43013e-22, 0.0235678, -8.06513e-16, 1, 3.42115e-14, -0.0235678, -3.4221e-14, 0.999722, -2.13013e-12, -2.08165e-12, -2.03201e-12)
+script = ExtResource("2_50vj5")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="Course/Follow/Boat"]
+
+[node name="Head" type="XRController3D" parent="Course/Follow/Boat/XROrigin3D"]
+tracker = &"head"
+
+[node name="XRCamera3D" type="XRCamera3D" parent="Course/Follow/Boat/XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 1.6, 2.08165e-12)
+
+[node name="LeftHand" type="XRController3D" parent="Course/Follow/Boat/XROrigin3D"]
+tracker = &"left_hand"
+
+[node name="RightHand" type="XRController3D" parent="Course/Follow/Boat/XROrigin3D"]
+tracker = &"right_hand"
+
+[node name="boat" parent="Course/Follow/Boat" instance=ExtResource("2_mqn32")]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+
+[node name="paddel" parent="Course/Follow/Boat/boat/Sketchfab_model/01e6de31d9c04abfb80dd3ceb239b9e0fbx/RootNode/boat" index="1"]
+visible = false
+
+[node name="Water" type="Node3D" parent="Course/Follow/Boat"]
+script = ExtResource("3_q0skm")
+
+[node name="Tile" type="MeshInstance3D" parent="Course/Follow/Boat/Water"]
+mesh = SubResource("PlaneMesh_iet6j")
+
 [editable path="Mermaid"]
 [editable path="Island"]
+[editable path="Course/Follow/Boat/boat"]

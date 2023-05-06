@@ -14,9 +14,9 @@ func _ready():
 	else:
 		print("[Main] OpenXR NOT INITIALIZED")
 		
-	boat = $Boat
+	boat = $Course/Follow/Boat
 		
-	var right_hand = $"Boat/XROrigin3D/RightHand"
+	var right_hand = $"Course/Follow/Boat/XROrigin3D/RightHand"
 	right_hand.connect("button_pressed", right_hand_button_pressed)
 	
 	
